@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npm --version)",
+      "Bash(NEXT_TELEMETRY_DISABLED=1 npm run dev)",
+      "Bash(chmod +x install-node-wsl.sh)",
+      "Bash(./install-node-wsl.sh)",
+      "Bash(awk '{print $9}')",
+      "Bash(grep -v \"^$\")",
+      "Bash(git config *)"
+    ]
+  }
+}
