@@ -8,7 +8,9 @@
       "Bash(./install-node-wsl.sh)",
       "Bash(awk '{print $9}')",
       "Bash(grep -v \"^$\")",
-      "Bash(git config *)"
+      "Bash(git config *)",
+      "Bash(git pull *)",
+      "Bash(chmod +x push-to-github.sh)"
     ]
   }
 }
