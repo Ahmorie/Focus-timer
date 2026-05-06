@@ -10,7 +10,39 @@
       "Bash(grep -v \"^$\")",
       "Bash(git config *)",
       "Bash(git pull *)",
-      "Bash(chmod +x push-to-github.sh)"
+      "Bash(chmod +x push-to-github.sh)",
+      "Bash(ls -la ~/.claude/skills/ 2>/dev/null || echo \"Aucun dossier skills trouvé\")",
+      "Read(//home/amaurybodin/.claude/**)",
+      "Bash(find ~/.claude -name \"*.md\" -type f 2>/dev/null | head -20)",
+      "Bash(mkdir -p ~/.claude/skills && echo \"✅ Dossier skills créé\")",
+      "Bash(cd /tmp && find impeccable -name \"*.md\" -type f)",
+      "Read(//tmp/**)",
+      "Bash(cp /tmp/impeccable/skill/SKILL.md ~/.claude/skills/impeccable.md && echo \"✅ Impeccable installé\")",
+      "Bash(cp /tmp/huashu-design/SKILL.md ~/.claude/skills/huashu-design.md && echo \"✅ Huashu Design installé\")",
+      "Bash(cp /tmp/playwright-skill/skills/playwright-skill/SKILL.md ~/.claude/skills/playwright.md)",
+      "Bash(cp /tmp/playwright-skill/skills/playwright-skill/API_REFERENCE.md ~/.claude/skills/playwright-api.md)",
+      "Bash(npx playwright *)",
+      "Bash(node /tmp/test-playwright.js)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(npx impeccable *)",
+      "Bash(npx skills *)",
+      "Bash(ls -1 ~/.agents/skills/ | head -15)",
+      "Read(//home/amaurybodin/.agents/skills/**)",
+      "Bash(node /home/amaurybodin/.claude/skills/impeccable/scripts/load-context.mjs)",
+      "Bash(node /home/amaurybodin/.claude/skills/impeccable/scripts/teach.mjs)",
+      "Skill(impeccable)",
+      "Skill(impeccable:*)",
+      "Bash(node /tmp/impeccable/skill/scripts/load-context.mjs)",
+      "Bash(lsof -ti:3000)",
+      "Bash(xdg-open \"http://localhost:3000\")",
+      "Bash(xdotool search *)",
+      "Bash(/mnt/c/Windows/System32/cmd.exe /c start http://localhost:3000)"
+    ],
+    "additionalDirectories": [
+      "/home/amaurybodin/.claude",
+      "/tmp/impeccable/skill",
+      "/tmp/huashu-design",
+      "/tmp"
     ]
   }
 }

@@ -1,4 +1,4 @@
-export type ThemeType = 'minimal' | 'medieval' | 'flip' | 'vintage';
+export type ThemeType = 'flip' | 'minimal' | 'vintage';
 
 export interface Theme {
   value: ThemeType;
@@ -7,8 +7,7 @@ export interface Theme {
 }
 
 export const THEME_OPTIONS: Theme[] = [
-  { value: 'minimal', label: 'Minimaliste', description: 'Design épuré noir et blanc' },
-  { value: 'medieval', label: 'Médiéval', description: 'Style fantasy avec ornements' },
-  { value: 'flip', label: 'Flip Clock', description: 'Horloge à bascule rétro' },
-  { value: 'vintage', label: 'Vintage', description: 'Style rétro années 70' },
+  { value: 'flip', label: 'Flip Clock', description: 'Retro split-flap display' },
+  { value: 'minimal', label: 'Minimal', description: 'Clean monochrome design' },
+  { value: 'vintage', label: 'Vintage', description: 'Retro 70s aesthetic' },
 ];

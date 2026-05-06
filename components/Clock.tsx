@@ -24,7 +24,7 @@ export default function Clock({ theme }: ClockProps) {
   if (!time) {
     return (
       <div className="text-center">
-        <div className="text-7xl md:text-8xl font-light tracking-wider">
+        <div className="text-7xl md:text-8xl font-medium tracking-wide tabular-nums">
           --:--<span className="text-white/40">:--</span>
         </div>
         <div className="text-white/40 text-sm mt-4 tracking-widest uppercase">
@@ -38,12 +38,12 @@ export default function Clock({ theme }: ClockProps) {
   const minutes = time.getMinutes().toString().padStart(2, '0');
   const seconds = time.getSeconds().toString().padStart(2, '0');
 
-  const dateStr = time.toLocaleDateString('fr-FR', {
+  const dateStr = time.toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric'
-  });
+  }).toUpperCase();
 
   return (
     <ThemedDisplay

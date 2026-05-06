@@ -1,23 +1,37 @@
 'use client';
 
+import { playClickSound } from '@/utils/audio';
+
 interface SettingsButtonProps {
   onClick: () => void;
 }
 
 export default function SettingsButton({ onClick }: SettingsButtonProps) {
+  const handleClick = () => {
+    playClickSound();
+    onClick();
+  };
+
   return (
     <button
-      onClick={onClick}
-      className="fixed bottom-6 right-6 w-12 h-12 glass-effect rounded-full flex items-center justify-center hover:bg-white/10 transition-all duration-300 glow-effect group z-40"
-      aria-label="Paramètres"
+      onClick={handleClick}
+      className="fixed top-4 right-4 sm:top-6 sm:right-6 w-12 h-12 sm:w-14 sm:h-14 glass-effect rounded-full flex items-center justify-center hover:bg-white/10 active:scale-95 active:translate-y-[1px] transition-all duration-300 group z-40 touch-manipulation"
+      style={{
+        boxShadow: `
+          0 4px 8px rgba(0, 0, 0, 0.3),
+          0 2px 4px rgba(0, 0, 0, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1)
+        `
+      }}
+      aria-label="Settings"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        strokeWidth={1.5}
+        strokeWidth={1.2}
         stroke="currentColor"
-        className="w-6 h-6 text-white/60 group-hover:text-white transition-colors group-hover:rotate-90 transition-transform duration-500"
+        className="w-5 h-5 sm:w-6 sm:h-6 text-white/50 group-hover:text-white transition-colors duration-300"
       >
         <path
           strokeLinecap="round"

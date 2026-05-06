@@ -4,29 +4,58 @@
 
 @layer base {
   :root {
-    --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-      'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-      'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+    --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   }
 
   body {
-    @apply bg-black text-white font-mono;
+    font-family: var(--font-inter);
+    background: oklch(4% 0.008 250);
+    color: oklch(98% 0.003 250);
+    font-feature-settings: 'tnum' 1, 'cv08' 1;
   }
 }
 
 @layer utilities {
   .glass-effect {
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: oklch(8% 0.01 250);
+    border: 1px solid oklch(100% 0.008 240 / 0.12);
+    box-shadow:
+      0 2px 8px oklch(0% 0 0 / 0.4),
+      inset 0 1px 0 oklch(100% 0 0 / 0.03);
   }
 
   .glow-effect {
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 transparent;
   }
 
   .bg-gradient-radial {
-    background: radial-gradient(circle, var(--tw-gradient-stops));
+    background: radial-gradient(circle at 50% 0%, oklch(12% 0.008 250 / 0.5) 0%, transparent 70%);
+  }
+
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 4px 16px oklch(0% 0 0 / 0.5),
+      inset 0 1px 0 oklch(100% 0 0 / 0.05);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hover-lift,
+    .animate-flip,
+    .animate-in,
+    .fade-in,
+    .zoom-in-95 {
+      animation: none;
+      transition: none;
+    }
+
+    .hover-lift:hover {
+      transform: none;
+    }
   }
 }
 
@@ -44,7 +73,112 @@
   }
 
   .animate-flip {
-    animation: flip 0.3s ease-in-out;
+    animation: flip 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     transform-style: preserve-3d;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes zoom-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-in {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  .fade-in {
+    animation: fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .zoom-in-95 {
+    animation: zoom-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Scrollbar styling */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: oklch(100% 0.008 240 / 0.1);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: oklch(100% 0.008 240 / 0.2);
+  }
+
+  /* Number input styling */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  /* Range input styling */
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: oklch(100% 0.005 240);
+    cursor: pointer;
+    box-shadow: 0 0 10px oklch(100% 0.008 240 / 0.3);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: oklch(100% 0.005 240);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px oklch(100% 0.008 240 / 0.3);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    input[type="range"]::-webkit-slider-thumb,
+    input[type="range"]::-moz-range-thumb {
+      transition: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover,
+    input[type="range"]::-moz-range-thumb:hover {
+      transform: none;
+    }
   }
 }

@@ -8,12 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '375px',
+      },
       colors: {
         background: '#000000',
         foreground: '#ffffff',
       },
       fontFamily: {
-        mono: ['var(--font-mono)'],
+        sans: ['var(--font-inter)'],
       },
     },
   },

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Timer Title</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 40px;
+            background: #000;
+            color: #fff;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            background: #111;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test de mise à jour du titre de l'onglet</h1>
+
+    <div class="status">
+        <div><strong>Titre actuel:</strong> <span id="currentTitle">Focus Timer</span></div>
+        <div><strong>Temps restant:</strong> <span id="timeLeft">25:00</span></div>
+        <div><strong>État:</strong> <span id="status">En pause</span></div>
+    </div>
+
+    <button onclick="startTimer()">▶️ Démarrer Timer (25 secondes)</button>
+    <button onclick="pauseTimer()">⏸️ Pause</button>
+    <button onclick="resetTimer()">↻ Reset</button>
+
+    <script>
+        let timeLeft = 25; // 25 secondes pour le test
+        let isRunning = false;
+        let timerInterval = null;
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            document.getElementById('timeLeft').textContent = formattedTime;
+            document.getElementById('currentTitle').textContent = document.title;
+            document.getElementById('status').textContent = isRunning ? '▶️ En cours' : '⏸️ En pause';
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            isRunning = true;
+
+            timerInterval = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    document.title = `⏱️ ${formattedTime} - Focus Timer`;
+                    updateDisplay();
+                } else {
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    document.title = '✅ Terminé ! - Focus Timer';
+                    updateDisplay();
+                }
+            }, 1000);
+
+            updateDisplay();
+        }
+
+        function pauseTimer() {
+            if (!isRunning) return;
+            isRunning = false;
+            clearInterval(timerInterval);
+            document.title = 'Focus Timer';
+            updateDisplay();
+        }
+
+        function resetTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+            timeLeft = 25;
+            document.title = 'Focus Timer';
+            updateDisplay();
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>
