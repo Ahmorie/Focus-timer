@@ -14,8 +14,8 @@ export default function DurationInput({ onStart }: DurationInputProps) {
     { value: 15, label: '15 min' },
     { value: 25, label: '25 min' },
     { value: 30, label: '30 min' },
-    { value: 45, label: '45 min' },
-    { value: 60, label: '60 min' },
+    { value: 40, label: '40 min' },
+    { value: 50, label: '50 min' },
     { value: 0, label: 'Custom →' },
   ];
 

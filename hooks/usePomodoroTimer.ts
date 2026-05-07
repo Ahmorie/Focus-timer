@@ -5,16 +5,16 @@ import type { PomodoroConfig } from '@/types';
 import { playSound, getSelectedSound, initAudioContext } from '@/utils/audio';
 
 const DEFAULT_CONFIG: PomodoroConfig = {
-  workDuration: 25 * 60,
+  workDuration: 40 * 60,
   breakDuration: 5 * 60,
   longBreakDuration: 15 * 60,
   sessionsUntilLongBreak: 4,
   currentSession: 1,
   isBreak: false,
+  autoStartBreaks: true,
 };
 
 export function usePomodoroTimer(
-  onComplete?: (duration: number, isBreak: boolean) => void,
   onAudioError?: (error: Error) => void
 ) {
   const [config, setConfig] = useState<PomodoroConfig>(DEFAULT_CONFIG);
@@ -26,31 +26,34 @@ export function usePomodoroTimer(
   const endTimeRef = useRef<number | null>(null);
 
   const handleTimerComplete = useCallback(() => {
-    const completedDuration = isBreak
-      ? (currentSession % config.sessionsUntilLongBreak === 0 ? config.longBreakDuration : config.breakDuration)
-      : config.workDuration;
-
     playSound(getSelectedSound(), onAudioError);
-    setIsRunning(false);
-    endTimeRef.current = null;
-
-    // Notify parent component
-    if (onComplete) {
-      onComplete(completedDuration, isBreak);
-    }
 
     if (isBreak) {
+      // Break finished, go back to work (always manual start)
+      setIsRunning(false);
+      endTimeRef.current = null;
       setIsBreak(false);
       setTimeLeft(config.workDuration);
     } else {
+      // Work finished, start break
       const nextSession = currentSession + 1;
       const shouldTakeLongBreak = currentSession % config.sessionsUntilLongBreak === 0;
+      const breakDuration = shouldTakeLongBreak ? config.longBreakDuration : config.breakDuration;
 
       setIsBreak(true);
       setCurrentSession(nextSession);
-      setTimeLeft(shouldTakeLongBreak ? config.longBreakDuration : config.breakDuration);
+      setTimeLeft(breakDuration);
+
+      // Auto-start break if enabled
+      if (config.autoStartBreaks) {
+        endTimeRef.current = Date.now() + breakDuration * 1000;
+        // isRunning stays true
+      } else {
+        setIsRunning(false);
+        endTimeRef.current = null;
+      }
     }
-  }, [isBreak, currentSession, config, onComplete, onAudioError]);
+  }, [isBreak, currentSession, config, onAudioError]);
 
   useEffect(() => {
     if (isRunning) {

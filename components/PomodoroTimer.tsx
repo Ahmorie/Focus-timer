@@ -8,7 +8,6 @@ import TimerControls from './TimerControls';
 import PomodoroSettings from './PomodoroSettings';
 import ProgressRing from './ProgressRing';
 import KeyboardHint from './KeyboardHint';
-import CompletionOverlay from './CompletionOverlay';
 import Toast from './Toast';
 import PomodoroTooltip from './PomodoroTooltip';
 import type { ThemeType } from '@/types/theme';
@@ -21,15 +20,8 @@ interface PomodoroTimerProps {
 
 export default function PomodoroTimer({ onBack, theme, onKeyboardHintsChange }: PomodoroTimerProps) {
   const [showSettings, setShowSettings] = useState(false);
-  const [showCompletion, setShowCompletion] = useState(false);
-  const [completionData, setCompletionData] = useState<{ duration: number; isBreak: boolean } | null>(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-
-  const handleComplete = useCallback((duration: number, isBreak: boolean) => {
-    setCompletionData({ duration, isBreak });
-    setShowCompletion(true);
-  }, []);
 
   const handleAudioError = useCallback((error: Error) => {
     setToastMessage(error.message || 'Audio playback failed');
@@ -47,7 +39,7 @@ export default function PomodoroTimer({ onBack, theme, onKeyboardHintsChange }: 
     pause,
     reset,
     updateConfig,
-  } = usePomodoroTimer(handleComplete, handleAudioError);
+  } = usePomodoroTimer(handleAudioError);
 
   // Update keyboard hints when running state changes
   useEffect(() => {
@@ -64,13 +56,7 @@ export default function PomodoroTimer({ onBack, theme, onKeyboardHintsChange }: 
   useKeyboardShortcuts({
     onSpace: () => isRunning ? pause() : start(),
     onReset: () => reset(),
-    onEscape: () => {
-      if (showCompletion) {
-        setShowCompletion(false);
-      } else {
-        onBack();
-      }
-    },
+    onEscape: onBack,
     enabled: true
   });
 
@@ -134,13 +120,6 @@ export default function PomodoroTimer({ onBack, theme, onKeyboardHintsChange }: 
           </div>
         )}
       </div>
-
-      <CompletionOverlay
-        isOpen={showCompletion}
-        onClose={() => setShowCompletion(false)}
-        duration={completionData?.duration || 0}
-        sessionType={completionData?.isBreak ? 'break' : 'work'}
-      />
 
       <Toast
         message={toastMessage}

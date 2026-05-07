@@ -14,4 +14,5 @@ export interface PomodoroConfig {
   sessionsUntilLongBreak: number;
   currentSession: number;
   isBreak: boolean;
+  autoStartBreaks: boolean;
 }

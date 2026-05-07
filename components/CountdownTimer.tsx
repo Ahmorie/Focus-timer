@@ -8,7 +8,6 @@ import TimerControls from './TimerControls';
 import DurationInput from './DurationInput';
 import ProgressRing from './ProgressRing';
 import KeyboardHint from './KeyboardHint';
-import CompletionOverlay from './CompletionOverlay';
 import Toast from './Toast';
 import type { ThemeType } from '@/types/theme';
 
@@ -20,22 +19,15 @@ interface CountdownTimerProps {
 
 export default function CountdownTimer({ onBack, theme, onKeyboardHintsChange }: CountdownTimerProps) {
   const [showSettings, setShowSettings] = useState(true);
-  const [showCompletion, setShowCompletion] = useState(false);
-  const [completionDuration, setCompletionDuration] = useState(0);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-
-  const handleComplete = useCallback((duration: number) => {
-    setCompletionDuration(duration);
-    setShowCompletion(true);
-  }, []);
 
   const handleAudioError = useCallback((error: Error) => {
     setToastMessage(error.message || 'Audio playback failed');
     setShowToast(true);
   }, []);
 
-  const { timeLeft, isRunning, progress, start, pause, reset, setDuration } = useCountdownTimer(handleComplete, handleAudioError);
+  const { timeLeft, isRunning, progress, start, pause, reset, setDuration } = useCountdownTimer(handleAudioError);
 
   // Update keyboard hints when state changes
   useEffect(() => {
@@ -62,20 +54,14 @@ export default function CountdownTimer({ onBack, theme, onKeyboardHintsChange }:
   };
 
   // Keyboard shortcuts
-  const presets = [15, 25, 30, 45, 60];
+  const presets = [15, 25, 30, 40, 50];
   useKeyboardShortcuts({
     onSpace: () => showSettings ? null : (isRunning ? pause() : start()),
     onReset: () => {
       reset();
       setShowSettings(true);
     },
-    onEscape: () => {
-      if (showCompletion) {
-        setShowCompletion(false);
-      } else {
-        onBack();
-      }
-    },
+    onEscape: onBack,
     onNumber: (num) => {
       if (showSettings && num >= 1 && num <= 5) {
         handleStartTimer(presets[num - 1]);
@@ -118,13 +104,6 @@ export default function CountdownTimer({ onBack, theme, onKeyboardHintsChange }:
           />
         </>
       )}
-
-      <CompletionOverlay
-        isOpen={showCompletion}
-        onClose={() => setShowCompletion(false)}
-        duration={completionDuration}
-        sessionType="work"
-      />
 
       <Toast
         message={toastMessage}

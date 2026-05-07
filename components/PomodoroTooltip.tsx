@@ -34,7 +34,7 @@ export default function PomodoroTooltip() {
           />
 
           {/* Tooltip */}
-          <div className="absolute bottom-full right-0 mb-2 w-64 p-4 bg-white/10 border border-white/20 rounded-xl backdrop-blur-md z-50 animate-in fade-in zoom-in-95 duration-200">
+          <div className="absolute bottom-full right-0 mb-2 w-64 p-4 bg-[oklch(10%_0.01_250/0.95)] border border-white/20 rounded-xl z-50 animate-in fade-in zoom-in-95 duration-200">
             <h3 className="text-sm font-semibold text-white mb-2 tracking-wide">
               Pomodoro Technique
             </h3>

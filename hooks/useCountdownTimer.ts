@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { playSound, getSelectedSound, initAudioContext } from '@/utils/audio';
 
 export function useCountdownTimer(
-  onComplete?: (duration: number) => void,
   onAudioError?: (error: Error) => void
 ) {
   const [duration, setDuration] = useState(25 * 60);
@@ -33,11 +32,6 @@ export function useCountdownTimer(
           if (timerRef.current) {
             clearInterval(timerRef.current);
           }
-
-          // Notify parent component
-          if (onComplete) {
-            onComplete(duration);
-          }
         } else {
           setTimeLeft(remaining);
         }
@@ -54,7 +48,7 @@ export function useCountdownTimer(
         clearInterval(timerRef.current);
       }
     };
-  }, [isRunning, duration, onComplete, onAudioError]);
+  }, [isRunning, duration, onAudioError]);
 
   // Update document title with timer
   useEffect(() => {

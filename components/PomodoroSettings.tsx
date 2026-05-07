@@ -45,6 +45,33 @@ export default function PomodoroSettings({ config, onUpdate }: PomodoroSettingsP
         min={2}
         max={10}
       />
+
+      {/* Auto-start breaks toggle */}
+      <div className="flex items-center justify-between pt-2 border-t border-white/10">
+        <div className="flex-1">
+          <label htmlFor="auto-start-breaks" className="text-xs sm:text-sm text-white/80 cursor-pointer">
+            Auto-start breaks
+          </label>
+          <p className="text-[10px] sm:text-xs text-white/50 mt-0.5">
+            Automatically start break timer after work session
+          </p>
+        </div>
+        <button
+          id="auto-start-breaks"
+          role="switch"
+          aria-checked={config.autoStartBreaks}
+          onClick={() => onUpdate({ autoStartBreaks: !config.autoStartBreaks })}
+          className={`relative w-11 h-6 rounded-full transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
+            config.autoStartBreaks ? 'bg-white' : 'bg-white/20'
+          }`}
+        >
+          <span
+            className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full transition-all duration-300 ${
+              config.autoStartBreaks ? 'translate-x-5 bg-black' : 'translate-x-0 bg-white/60'
+            }`}
+          />
+        </button>
+      </div>
     </div>
   );
 }
